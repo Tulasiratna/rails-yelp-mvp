@@ -6,8 +6,26 @@ class RestaurantsController < ApplicationController
   end
 
   def create
-    @restaurant = Restaurant.create(restaurant_params)
-    redirect_to restaurant_path(@restaurant)
+    @restaurant = Restaurant.new(restaurant_params)
+
+    if @restaurant.save
+      redirect_to @restaurant, notice: 'Restaurant was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  def update
+    if @restaurant.update(restaurant_params)
+      redirect_to @restaurant, notice: 'Restaurant was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @restaurant.destroy
+    redirect_to restaurants_url, notice: 'Restaurant was successfully destroyed.'
   end
 
   def index
@@ -15,7 +33,7 @@ class RestaurantsController < ApplicationController
   end
 
   def show
-    # @restaurant = Restaurant.find(params[:id])
+    #@restaurant = Restaurant.find(params[:id])
   end
 
   private
